@@ -85,7 +85,9 @@ if not defined readonly (
         )
     )
     REM move original vars from configdir into backup
-    move /Y "%vars%" "%oldvarprefix%.1" || (pause & exit /B)
+    if exist "%vars%" (
+        move /Y "%vars%" "%oldvarprefix%.1" || (pause & exit /B)
+    )
     REM copy new vars from tmpdir to configdir
     copy /B /Y "%tmpvars%" "%vars%" || (pause & exit /B)
 )
