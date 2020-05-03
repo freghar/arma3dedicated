@@ -25,8 +25,8 @@ The script works by having two folders:
 
 **If and only if** `dedicated-local-tmp` does not exist, the script reads
 `dedicated-config` and produces `dedicated-local-tmp` to be used by Arma 3
-exe. In other words, `dedicated-config` **is never read again** if
-`dedicated-local-tmp` exists, only written to.
+exe. In other words, the saved state in `dedicated-config` **is never read
+again** if `dedicated-local-tmp` exists, only written to.
 
 So if a friend sends you `dedicated-config`, you need to delete
 `dedicated-local-tmp` or you'll be playing on your old save (and overwrite
@@ -34,3 +34,8 @@ So if a friend sends you `dedicated-config`, you need to delete
 (so you don't lose data when your PC crashes while the server is running).
 
 For more details / config options, read the first few lines of the `.bat`.
+
+...  
+If you do accidentally close the console window first (or if your PC crashes),
+any saved state will remain only in `dedicated-local-tmp`, so you need to start
+up the server again and exit cleanly to save it into `dedicated-config` as well.
