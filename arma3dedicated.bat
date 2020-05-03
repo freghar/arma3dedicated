@@ -4,8 +4,10 @@ REM (anything starting with REM is a comment)
 
 REM portable folder with all the persistent data (configs, vars, etc.)
 set configdir=dedicated-config
+
 REM server profile name (used inside configdir)
 set profile=server
+
 REM temporary folder for one server run on this machine (can be deleted)
 set tmpdir=dedicated-local-tmp
 
