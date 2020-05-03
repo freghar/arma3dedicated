@@ -30,22 +30,22 @@ set mods=^
 @echo on
 
 if not exist "%configdir%" (
-    @echo.
-    @echo configdir does not exist, did you copy it over?
-    pause & exit /B
+	@echo.
+	@echo configdir does not exist, did you copy it over?
+	pause & exit /B
 )
 
 set srcpath=%configdir%\%profile%
 set dstdir=%tmpdir%\Users\%profile%
 if not exist "%tmpdir%" (
-    REM copy over profile from configdir, create Arma3 structure
-    setlocal enableextensions
-    mkdir "%dstdir%" || (pause & exit /B)
-    endlocal
-    copy /B "%srcpath%.Arma3Profile" "%dstdir%\." || (pause & exit /B)
-    if exist "%srcpath%.vars.Arma3Profile" (
-        copy /B "%srcpath%.vars.Arma3Profile" "%dstdir%\."
-    )
+	REM copy over profile from configdir, create Arma3 structure
+	setlocal enableextensions
+	mkdir "%dstdir%" || (pause & exit /B)
+	endlocal
+	copy /B "%srcpath%.Arma3Profile" "%dstdir%\." || (pause & exit /B)
+	if exist "%srcpath%.vars.Arma3Profile" (
+		copy /B "%srcpath%.vars.Arma3Profile" "%dstdir%\."
+	)
 )
 
 @echo.
@@ -56,16 +56,16 @@ if not exist "%tmpdir%" (
 @echo :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 arma3server_x64.exe ^
-    -port=2302 ^
-    "-config=%configdir%\server.cfg" ^
-    "-cfg=%configdir%\basic.cfg" ^
-    "-profiles=%tmpdir%" -name=%profile% ^
-    -noSplash ^
-    -world=empty ^
-    -enableHT ^
-    -hugePages ^
-    -noLogs ^
-    "-mod=%mods%"
+	-port=2302 ^
+	"-config=%configdir%\server.cfg" ^
+	"-cfg=%configdir%\basic.cfg" ^
+	"-profiles=%tmpdir%" -name=%profile% ^
+	-noSplash ^
+	-world=empty ^
+	-enableHT ^
+	-hugePages ^
+	-noLogs ^
+	"-mod=%mods%"
 
 if errorlevel 1 (pause & exit /B)
 
@@ -75,22 +75,22 @@ set oldvarprefix=%backups%\%profile%.vars.Arma3Profile
 set vars=%configdir%\%profile%.vars.Arma3Profile
 set tmpvars=%tmpdir%\Users\%profile%\%profile%.vars.Arma3Profile
 if not defined readonly (
-    if not exist "%backups%" (
-        mkdir "%backups%" || (pause & exit /B)
-    )
-    REM rotate old backups
-    setlocal enabledelayedexpansion
-    for /L %%i in (8,-1,1) do (
-        set /A j=%%i+1
-        if exist "%oldvarprefix%.%%i" (
-            move /Y "%oldvarprefix%.%%i" "%oldvarprefix%.!j!"
-        )
-    )
-    endlocal
-    REM move original vars from configdir into backup
-    if exist "%vars%" (
-        move /Y "%vars%" "%oldvarprefix%.1" || (pause & exit /B)
-    )
-    REM copy new vars from tmpdir to configdir
-    copy /B /Y "%tmpvars%" "%vars%" || (pause & exit /B)
+	if not exist "%backups%" (
+		mkdir "%backups%" || (pause & exit /B)
+	)
+	REM rotate old backups
+	setlocal enabledelayedexpansion
+	for /L %%i in (8,-1,1) do (
+		set /A j=%%i+1
+		if exist "%oldvarprefix%.%%i" (
+			move /Y "%oldvarprefix%.%%i" "%oldvarprefix%.!j!"
+		)
+	)
+	endlocal
+	REM move original vars from configdir into backup
+	if exist "%vars%" (
+		move /Y "%vars%" "%oldvarprefix%.1" || (pause & exit /B)
+	)
+	REM copy new vars from tmpdir to configdir
+	copy /B /Y "%tmpvars%" "%vars%" || (pause & exit /B)
 )
