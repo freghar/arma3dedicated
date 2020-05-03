@@ -1,5 +1,4 @@
 @echo off
-setlocal enableextensions enabledelayedexpansion
 
 REM (anything starting with REM is a comment)
 
@@ -40,7 +39,9 @@ set srcpath=%configdir%\%profile%
 set dstdir=%tmpdir%\Users\%profile%
 if not exist "%tmpdir%" (
     REM copy over profile from configdir, create Arma3 structure
+    setlocal enableextensions
     mkdir "%dstdir%" || (pause & exit /B)
+    endlocal
     copy /B "%srcpath%.Arma3Profile" "%dstdir%\." || (pause & exit /B)
     if exist "%srcpath%.vars.Arma3Profile" (
         copy /B "%srcpath%.vars.Arma3Profile" "%dstdir%\."
@@ -55,16 +56,16 @@ if not exist "%tmpdir%" (
 @echo :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 arma3server_x64.exe ^
-	-port=2302 ^
-	"-config=%configdir%\server.cfg" ^
-	"-cfg=%configdir%\basic.cfg" ^
-	"-profiles=%tmpdir%" -name=%profile% ^
-	-noSplash ^
-	-world=empty ^
+    -port=2302 ^
+    "-config=%configdir%\server.cfg" ^
+    "-cfg=%configdir%\basic.cfg" ^
+    "-profiles=%tmpdir%" -name=%profile% ^
+    -noSplash ^
+    -world=empty ^
     -enableHT ^
     -hugePages ^
     -noLogs ^
-	"-mod=%mods%"
+    "-mod=%mods%"
 
 if errorlevel 1 (pause & exit /B)
 
@@ -78,12 +79,14 @@ if not defined readonly (
         mkdir "%backups%" || (pause & exit /B)
     )
     REM rotate old backups
-    for /L %%i in (3,-1,1) do (
+    setlocal enabledelayedexpansion
+    for /L %%i in (8,-1,1) do (
         set /A j=%%i+1
         if exist "%oldvarprefix%.%%i" (
             move /Y "%oldvarprefix%.%%i" "%oldvarprefix%.!j!"
         )
     )
+    endlocal
     REM move original vars from configdir into backup
     if exist "%vars%" (
         move /Y "%vars%" "%oldvarprefix%.1" || (pause & exit /B)
