@@ -25,9 +25,12 @@ class DifficultyPresets
 			scoreTable=0;
 			deathMessages=0;
 			vonID=1;
-			mapContent=0;
+			mapContentFriendly=0;
+			mapContentEnemy=0;
+			mapContentMines=0;
 			autoReport=0;
 			multipleSaves=1;
+			tacticalPing=0;
 		};
 		aiLevelPreset=3;
 	};
